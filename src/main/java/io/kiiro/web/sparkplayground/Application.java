@@ -1,7 +1,11 @@
 package io.kiiro.web.sparkplayground;
 
-import static spark.Spark.*;
-import spark.*;
+import static spark.Spark.get;
+import io.kiiro.web.sparkplayground.view.MicroView;
+import io.kiiro.web.sparkplayground.view.XMLMicroView;
+import spark.Request;
+import spark.Response;
+import spark.Route;
 
 public class Application {
 
@@ -27,6 +31,19 @@ public class Application {
 			@Override
 			public Object handle(Request request, Response response) {
 				return "Hello: " + request.params(":name");
+			}
+		});
+		
+		// testing XML functionality
+		get(new Route("/xml-test") {
+			@Override
+			public Object handle(Request request, Response response) {
+				
+				response.type("text/xml");
+				
+				MicroView view = new XMLMicroView();
+				
+				return view.render();
 			}
 		});
 
